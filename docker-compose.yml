@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - etanol-back
+
+  pg-admin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "lmarciorodriguesjunior@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "docker"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres
+    networks:
+      - etanol-back
+
+networks:
+  etanol-back:
+    driver: bridge
